@@ -1,6 +1,6 @@
 class User < ApplicationRecord
-  USER_PARAMS = [:email, :fullname, :encrypted_password, :gender,
-    :admin, :money].freeze
+  USER_PARAMS = [:email, :fullname, :gender,
+    :admin, :money, :password].freeze
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :validatable, :confirmable
   before_save :downcase_email
@@ -16,8 +16,8 @@ class User < ApplicationRecord
   validates :email, presence: true,
     length: {maximum: Settings.user.maximum_email},
     format: {with: VALID_EMAIL_REGEX}, uniqueness: {case_sensitive: false}
-  validates :password, presence: true,
-    length: {minimum: Settings.user.minimum_pass}, allow_nil: true
+  # validates :password, presence: true,
+  #   length: {minimum: Settings.user.minimum_pass}, allow_nil: true
   validates :gender, presence: true
   scope :newest, ->{order created_at: :desc}
 
